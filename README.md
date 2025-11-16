@@ -31,7 +31,7 @@ Hizalanmış görüntünün kalitesini artırmak ve tarihi fotoğrafların karan
 2.  **Histogram Eşitleme:** Görüntünün global kontrastı artırıldı.
 3.  **Laplasyen Filtreleme:** Kenarlar keskinleştirilerek detaylar vurgulandı.
 
-![Gama ile İyileştirilmiş Sonuç](rsonuç/10_5_iyilestirilmis_gamma.jpg)
+![Gama ile İyileştirilmiş Sonuç](sonuç/10_5_iyilestirilmis_gamma.jpg)
 
 ### 4. Bonus: Piramit Tabanlı Hızlandırma
 Yüksek çözünürlüklü (`.tif`) dosyalarda geniş arama pencerelerinde (örn: `[-100, 100]`) yaşanan yavaşlığı aşmak için piramit tabanlı (çok-ölçekli) bir hizalama yöntemi uygulanmıştır. Bu yöntem, hesaplama süresini `~5-6` saniyeden `~0.4` saniyeye düşürmüştür.
