@@ -16,7 +16,7 @@ Proje, çok adımlı bir görüntü işleme hattı (pipeline) olarak tasarlanmı
 ### 1. Görüntü Bölme ve Ham Hali
 Giriş olarak verilen uzun `.jpg` dosyası, NumPy dizi dilimleme (array slicing) kullanılarak üç eşit parçaya (Mavi, Yeşil, Kırmızı kanallar) bölünmüştür. Bu, kanalların hizalanmadan önceki ham halidir.
 
-![Hizalanmamış Görüntü](sonuç/1-1-hizalanmamis.jpg)
+![Hizalanmamış Görüntü](sonuç/1_1_hizalanmamis.jpg)
 
 ### 2. Kanal Hizalama (SSD & NCC)
 Mavi kanal referans (sabit) alınarak, Yeşil ve Kırmızı kanalların Mavi kanala göre en uygun `(dx, dy)` kaydırma vektörleri bulunmuştur. Bu işlem için iki farklı metrik sıfırdan kodlanmıştır:
