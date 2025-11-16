@@ -23,7 +23,7 @@ Mavi kanal referans (sabit) alınarak, Yeşil ve Kırmızı kanalların Mavi kan
 * **SSD (Sum of Squared Differences):** Hızlı, ancak parlaklık değişimlerine duyarlı.
 * **NCC (Normalized Cross-Correlation):** Yavaş, ancak parlaklık değişimlerine karşı dayanıklı.
 
-![SSD ile Hizalanmış Görüntü](sonuç/10_2_hizalanmis-ssd.jpg)
+![SSD ile Hizalanmış Görüntü](sonuç/10_2_hizalanmis_ssd.jpg)
 
 ### 3. Görüntü İyileştirme
 Hizalanmış görüntünün kalitesini artırmak ve tarihi fotoğrafların karanlık yapısını canlandırmak için üç farklı teknik uygulanmıştır:
@@ -31,7 +31,7 @@ Hizalanmış görüntünün kalitesini artırmak ve tarihi fotoğrafların karan
 2.  **Histogram Eşitleme:** Görüntünün global kontrastı artırıldı.
 3.  **Laplasyen Filtreleme:** Kenarlar keskinleştirilerek detaylar vurgulandı.
 
-![Gama ile İyileştirilmiş Sonuç](rsonuç/10_5_iyilestirilmis-gamma.jpg)
+![Gama ile İyileştirilmiş Sonuç](rsonuç/10_5_iyilestirilmis_gamma.jpg)
 
 ### 4. Bonus: Piramit Tabanlı Hızlandırma
 Yüksek çözünürlüklü (`.tif`) dosyalarda geniş arama pencerelerinde (örn: `[-100, 100]`) yaşanan yavaşlığı aşmak için piramit tabanlı (çok-ölçekli) bir hizalama yöntemi uygulanmıştır. Bu yöntem, hesaplama süresini `~5-6` saniyeden `~0.4` saniyeye düşürmüştür.
