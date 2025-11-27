@@ -1,6 +1,6 @@
-# 🎨 Geçmişin Renkleri: Prokudin-Gorskii Restorasyonu
+# 🎨 Colors of the Past: Prokudin-Gorskii Restoration
 
-Bu proje, Sergei Mikhailovich Prokudin-Gorskii tarafından 20. yüzyılın başlarında çekilen üç kanallı (Mavi, Yeşil, Kırmızı) cam plaka negatiflerini, **NumPy** kütüphanesi kullanarak sıfırdan hizalamaya ve restore etmeye odaklanmaktadır. Projede `cv2.matchTemplate` veya benzeri hazır hizalama fonksiyonları kullanılmamıştır.
+This project focuses on aligning and restoring the three-channel (Blue, Green, Red) glass plate negatives taken by Sergei Mikhailovich Prokudin-Gorskii in the early 20th century, implemented from scratch using the **NumPy** library. The project **does not** use built-in alignment functions such as `cv2.matchTemplate` or similar.
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![NumPy](https://img.shields.io/badge/Numpy-013243?style=for-the-badge&logo=numpy&logoColor=white)
@@ -9,55 +9,55 @@ Bu proje, Sergei Mikhailovich Prokudin-Gorskii tarafından 20. yüzyılın başl
 
 ---
 
-## 🎯 Uygulanan Teknikler ve Rapor Görünümü
+## 🎯 Applied Techniques and Report View
 
-Proje, çok adımlı bir görüntü işleme hattı (pipeline) olarak tasarlanmıştır. Tüm adımlar `1.jpg` görüntüsü üzerinde gösterilmiştir.
+The project is designed as a multi-step image processing **pipeline**. All steps are demonstrated using the `1.jpg` image.
 
-### 1. Görüntü Bölme ve Ham Hali
-Giriş olarak verilen uzun `.jpg` dosyası, NumPy dizi dilimleme (array slicing) kullanılarak üç eşit parçaya (Mavi, Yeşil, Kırmızı kanallar) bölünmüştür. Bu, kanalların hizalanmadan önceki ham halidir.
+### 1. Image Splitting and Raw State
+The long input `.jpg` file is split into three equal parts (Blue, Green, Red channels) using **NumPy array slicing**. This represents the raw state of the channels before alignment.
 
-![Hizalanmamış Görüntü](sonuç/10_1_hizalanmamis.jpg)
+![Un-aligned Image](sonuç/10_1_hizalanmamis.jpg)
 
-### 2. Kanal Hizalama (SSD & NCC)
-Mavi kanal referans (sabit) alınarak, Yeşil ve Kırmızı kanalların Mavi kanala göre en uygun `(dx, dy)` kaydırma vektörleri bulunmuştur. Bu işlem için iki farklı metrik sıfırdan kodlanmıştır:
-* **SSD (Sum of Squared Differences):** Hızlı, ancak parlaklık değişimlerine duyarlı.
-* **NCC (Normalized Cross-Correlation):** Yavaş, ancak parlaklık değişimlerine karşı dayanıklı.
+### 2. Channel Alignment (SSD & NCC)
+Taking the Blue channel as the reference (fixed), the optimal **`(dx, dy)` shift vectors** for the Green and Red channels relative to the Blue channel were found. Two different metrics were coded from scratch for this operation:
+* **SSD (Sum of Squared Differences):** Fast, but sensitive to brightness changes.
+* **NCC (Normalized Cross-Correlation):** Slow, but robust against brightness changes.
 
-![SSD ile Hizalanmış Görüntü](sonuç/10_2_hizalanmis_ssd.jpg)
+![Image Aligned with SSD](sonuç/10_2_hizalanmis_ssd.jpg)
 
-### 3. Görüntü İyileştirme
-Hizalanmış görüntünün kalitesini artırmak ve tarihi fotoğrafların karanlık yapısını canlandırmak için üç farklı teknik uygulanmıştır:
-1.  **Gama Düzeltme:** `output = 255 * (input / 255)^gamma` formülü ile karanlık alanlar aydınlatıldı (En başarılı sonuç).
-2.  **Histogram Eşitleme:** Görüntünün global kontrastı artırıldı.
-3.  **Laplasyen Filtreleme:** Kenarlar keskinleştirilerek detaylar vurgulandı.
+### 3. Image Enhancement
+Three different techniques were applied to improve the quality of the aligned image and revitalize the dark structure characteristic of historical photographs:
+1.  **Gamma Correction:** Dark areas were brightened using the formula `output = 255 * (input / 255)^gamma` (The most successful result).
+2.  **Histogram Equalization:** The global contrast of the image was increased.
+3.  **Laplacian Filtering:** Edges were sharpened to emphasize details.
 
-![Gama ile İyileştirilmiş Sonuç](sonuç/10_5_iyilestirilmis_gamma.jpg)
+![Gamma Corrected Final Result](sonuç/10_5_iyilestirilmis_gamma.jpg)
 
-### 4. Bonus: Piramit Tabanlı Hızlandırma
-Yüksek çözünürlüklü (`.tif`) dosyalarda geniş arama pencerelerinde (örn: `[-100, 100]`) yaşanan yavaşlığı aşmak için piramit tabanlı (çok-ölçekli) bir hizalama yöntemi uygulanmıştır. Bu yöntem, hesaplama süresini `~5-6` saniyeden `~0.4` saniyeye düşürmüştür.
+### 4. Bonus: Pyramid-Based Speedup
+A pyramid-based (multi-scale) alignment method was implemented to overcome the slowdown experienced in high-resolution (`.tif`) files within large search windows (e.g., `[-100, 100]`). This method reduced the computation time from `~5-6` seconds to `~0.4` seconds.
 
-### 5. Bonus: Otomatik Kenar Kırpma
-Hizalama işlemi sonrası kanalların kenarlarında oluşan bozuk çerçeveler (borders), piksellerin standart sapması analiz edilerek otomatik olarak tespit edilmiş ve kırpılmıştır.
-
----
-
-## 🚀 Kurulum ve Çalıştırma
-
-1.  Gerekli kütüphanelerin yüklü olduğundan emin olun:
-    ```bash
-    pip install numpy matplotlib opencv-python
-    ```
-2.  Proje dosyalarını klonlayın ve resimlerin `resimler` klasöründe olduğundan emin olun.
-3.  Aşağıdaki komut ile script'i çalıştırın (script adınızı `proje.py` olarak varsayarsak):
-    ```bash
-    python proje.py --input resimler/1.jpg
-    ```
-4.  Script, tüm görsel çıktıları `sonuclar/` klasörüne kaydedecektir.
+### 5. Bonus: Automatic Border Cropping
+The distorted frames (borders) that appear at the edges of the channels after the alignment process were automatically detected and cropped by analyzing the **standard deviation of the pixels**.
 
 ---
 
-## 👤 Proje Sahibi
-Yapay Zeka Mühendisliği Öğrencisi
+## 🚀 Setup and Running
+
+1.  Make sure the necessary libraries are installed:
+    ```bash
+    pip install numpy matplotlib opencv-python
+    ```
+2.  Clone the project files and ensure the images are in the `resimler` (images) folder.
+3.  Run the script with the following command (assuming your script name is `proje.py`):
+    ```bash
+    python proje.py --input resimler/1.jpg
+    ```
+4.  The script will save all visual outputs to the `sonuclar/` (results) folder.
+
+---
+
+## 👤 Project Owner
+Artificial Intelligence Engineering Student
 
 * **Gülnaz Aydemir**
-* Ostim Teknik Üniversitesi
+* Ostim Technical University
